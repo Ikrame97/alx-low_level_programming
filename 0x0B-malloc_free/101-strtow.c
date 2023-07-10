@@ -1,40 +1,76 @@
-#include "main.h"
 #include <stdlib.h>
-/**
- * argstostr - sssss rrrrrr
- * @ac: int variable
- * @av: double pointer tableux
- * Return: maso9akch
- */
-char *argstostr(int ac, char **av)
-{
-	int i, n, r = 0, l = 0;
-	char *sara;
+#include "main.h"
 
-	if (ac == 0 || av == NULL)
+/**
+ * count_word - helper function to count the number of words in a string
+ * @s: string to evaluate
+ *
+ * Return: number of words
+ */
+int count_word(char *s)
+{
+	int flag, c, w;
+
+	flag = 0;
+	w = 0;
+
+	for (c = 0; s[c] != '\0'; c++)
+	{
+		if (s[c] == ' ')
+			flag = 0;
+		else if (flag == 0)
+		{
+			flag = 1;
+			w++;
+		}
+	}
+
+	return (w);
+}
+/**
+ * **strtow - tanfr9o stringat l klimat w safe
+ * @str: string li kanfr9o
+ *
+ * Return: nari rah 3yte ngol likom maso9akomch ana li 3rfa
+ */
+char **strtow(char *str)
+{
+	char **sara, *yamil;
+	int i, k = 0, len = 0, words, c = 0, start, end;
+
+	while (*(str + len))
+		len++;
+	words = count_word(str);
+	if (words == 0)
 		return (NULL);
 
-	for (i = 0; i < ac; i++)
-	{
-		for (n = 0; av[i][n]; n++)
-			l++;
-	}
-	l += ac;
-
-	sara = malloc(sizeof(char) * l + 1);
+	sara = (char **) malloc(sizeof(char *) * (words + 1));
 	if (sara == NULL)
 		return (NULL);
-	for (i = 0; i < ac; i++)
+
+	for (i = 0; i <= len; i++)
 	{
-	for (n = 0; av[i][n]; n++)
-	{
-		sara[r] = av[i][n];
-		r++;
+		if (str[i] == ' ' || str[i] == '\0')
+		{
+			if (c)
+			{
+				end = i;
+				yamil = (char *) malloc(sizeof(char) * (c + 1));
+				if (yamil == NULL)
+					return (NULL);
+				while (start < end)
+					*yamil++ = str[start++];
+				*yamil = '\0';
+				sara[k] = yamil - c;
+				k++;
+				c = 0;
+			}
+		}
+		else if (c++ == 0)
+			start = i;
 	}
-	if (sara[r] == '\0')
-	{
-		sara[r++] = '\n';
-	}
-	}
+
+	sara[k] = NULL;
+
 	return (sara);
 }
